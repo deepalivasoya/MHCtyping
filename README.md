@@ -22,7 +22,12 @@ This bioinformatic pipeline is developed for high-throughput NGS bovine MHC geno
 As shows in a workflow figure, it is split into two seperate analysis steps:
 
 ## 1. Snakemake pipeline (steps in green backgroud)
-This pipeline analyse the raw sequencing data for each sample and produces the final results for each primer pairs used in the samples. 
+This pipeline analyse the raw sequencing data for each sample and produces the final results for each primer pairs used in the samples.
+
+   - It starts with quality trimming of raw data. 
+   - The high quality trimmed reads are then overlapped to generate extedened amplicon sequences.
+   - Each extended sequence is then searched for PCR primers used. It searched for the forward and reverse primers, remove the excat primer sequences from reads to remove PCR sites. 
+   - 
 
 ### Data received from MiSeq (FASTQ):
 
@@ -78,8 +83,33 @@ Create a main folder with project name and in this project folder should have fo
 - **Config.yaml**: It should be in your main project folder. Check out the attached example config file. You can modify it according to data you are analysing.
     - Make sure you don’t use sample names starts with numeric digits. Sample names must start with alphabets. If sample names start with digits, the simple trick is to put an alphabet in front of all samples. That will work.
 - **Snakefile**: It should be in your main project folder.
+- **samplesheet.txt**: This file is the list of samples.
 
+### Running pipeline:
+Before running pipeline, make sure you have following steps done.
+  * In main folder, all subfolders are present.
+  * In main folder, Snakefile and config file are present.
+  * Config file must have correct information in correct format. Use my test config file to cross check the format. 
+  * All reads should be in separate sample folders in fastq folder
+  * Database and primer sequences should be in fasta format in fasta folder
+  * Primer sequences should only have ATGC sequences and forward and reverse should be names as for and rev
+  * Sequence database must be indexed. 
+  * All the perl scripts must be in scripts folder
 
+Once above steps are done, follow the commands below:
+
+  1. To check if snakemake pipeline is ready to run and how many jobs will be run, use this command:
+         `snakemake -p -n`
+  2. To run pipeline
+         `snakemake -p -j 3`
+      
+      Depending on the how many cores/processors you can use on system, change -j. 
+      Alternatavely, you can submit individual jobs for each sample on cluster (Check out the script *submit_snakemake_eddie.pl*
+  
+  It will take a while to finish running pipeline depending on number of clusters you want to check for artefacts in config file and number of samples you are analysing. 
+  
+  Once the pipeline is finished running, there will be many files presence in result folder for each sample. These outputs are are created at each steps of the pipeline: 
+  
 ## 2. Multiple scripts (Stpes shown in yellow backgroud)
 
   ----
