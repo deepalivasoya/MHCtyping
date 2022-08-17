@@ -27,8 +27,7 @@ This pipeline analyse the raw sequencing data for each sample and produces the f
    - It starts with quality trimming of raw data. 
    - The high quality trimmed reads are then overlapped to generate extedened amplicon sequences.
    - Each extended sequence is then searched for PCR primers used. It searched for the forward and reverse primers, remove the excat primer sequences from reads to remove PCR sites. 
-   - 
-
+   
 ### Data received from MiSeq (FASTQ):
 
 We receive data for each individual index and the folder names are given sample/library ID in samplesheet spreadsheet during sample submission. Each sample have two sequencing read files – forward and reverse. 
