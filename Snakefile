@@ -2,7 +2,7 @@ configfile: "config.yaml"
 # print(config['samples'][0])
 
 rule main:
-  input: expand("results/{sample}/{sample}.{pcr}.clusters.blast.log", sample=config["samples"], pcr=config["primers"].keys())
+  input: expand("results/{sample}/{sample}.{pcr}.clusters.blast.stats.csv", sample=config["samples"], pcr=config["primers"].keys())
 
 #Rule for quality trimming sequencing reads
 rule trim:
