@@ -70,7 +70,7 @@ Everytime when you want to run scripts or pipeline, use following command to act
   
 ### Folders and files: 
   
-Create a main folder with project name and in this project folder should have following folders:
+Create a main folder with project name and in this project folder should have following sub-folders:
 - **fastq**: It should have all sample folders with paired end data
 - **fasta**: 
     - It should have all primer sequences in fasta format for all primer pairs used and indexed database.
