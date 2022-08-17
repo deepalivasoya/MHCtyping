@@ -114,7 +114,13 @@ Once above steps are done, follow the commands below:
    There are bunch of scripts developed to summarise the result and create final tables. This phage is more dependent on which PCR primers were used.
    * MHCI:
    MHCI data has two different primers used For1Rev2 and For3Rev1. The region covered by both primer sets overlap with each other. Thus, it is important to extend the sequence identified by both primer sets. The following command will overlap both sequences and then summary tables will be created. 
-   
+   ```
+	perl scripts/run_post_analysis.twoPrimers.pl 
+	--samplesheet=samplesheet.txt 
+	--database=fasta/BoLA.MHCI.fasta  
+	--prefix=test 
+```
+	
    *MHCII:
    There are three different MHCII PCR done - 
    To get the final summary of the data, one more script to run that will create following files:
