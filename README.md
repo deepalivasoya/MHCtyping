@@ -17,7 +17,7 @@ This bioinformatic pipeline is developed for high-throughput NGS bovine MHC geno
 
 ### Workflow
 ---
-<img width="490" alt="Screenshot 2022-08-10 at 14 02 11" src="https://user-images.githubusercontent.com/8590103/183908092-7f16b969-ca8a-473e-be77-e8087aaf688a.png">
+<img width="480" alt="Screenshot 2022-08-17 at 10 49 55" src="https://user-images.githubusercontent.com/8590103/185089580-17e6361d-9b26-4f17-bb32-22d4112c6fb9.png">
 
 As shows in a workflow figure, it is split into two seperate analysis steps:
 
@@ -108,9 +108,11 @@ Once above steps are done, follow the commands below:
   
   It will take a while to finish running pipeline depending on number of clusters you want to check for artefacts in config file and number of samples you are analysing. 
   
-  Once the pipeline is finished running, there will be many files presence in result folder for each sample. These outputs are are created at each steps of the pipeline: 
+  Once the pipeline is finished running, there will be many files presence in result folder for each sample. These outputs are summarised into final tables in next phase of pipeline
   
-## 2. Multiple scripts (Stpes shown in yellow backgroud)
+## 2. Summary using multiple scripts
+   There are bunch of scripts developed to summarise the result and create tables. 
+   There are 
 
   ----
 ## Citations
