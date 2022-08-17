@@ -115,39 +115,41 @@ Once above steps are done, follow the commands below:
    * MHCI:
 	
    MHCI data has two different primers used For1Rev2 and For3Rev1. The region covered by both primer sets overlap with each other. Thus, it is important to extend the sequence identified by both primer sets. The following command will overlap both sequences and then summary tables will be created. 
-   ```
-	perl scripts/run_post_analysis.twoPrimers.pl 
-	--samplesheet=samplesheet.txt 
-	--database=fasta/BoLA.MHCI.fasta  
-	--prefix=test 
+   
+```
+perl scripts/run_post_analysis.twoPrimers.pl 
+--samplesheet=samplesheet.txt 
+--database=fasta/BoLA.MHCI.fasta  
+--prefix=test 
 ```
 	
    * MHCII:
 	
    There are three MHCII genes are sequenced - DRB3, DQA and DQB. Depending on the gene type, some parameters changes to create the final summary such as, cutoff, fold change etc. The following command will create summary files.
-	```
-	perl scripts/run_post_analysis.singlePrimers.pl 
-	--samplesheet=samplesheet.txt 
-	--prefix=test 
-	--primers=DRB3 
-	--cutoff=5 
-	--fc=3
+   
+```
+perl scripts/run_post_analysis.singlePrimers.pl 
+--samplesheet=samplesheet.txt 
+--prefix=test 
+--primers=DRB3 
+--cutoff=5 
+--fc=3
 	
-	perl scripts/run_post_analysis.singlePrimers.pl 
-	--samplesheet=samplesheet.txt 
-	--prefix=test 
-	--primers=DQA 
-	--cutoff=7 
-	--fc=3
+perl scripts/run_post_analysis.singlePrimers.pl 
+--samplesheet=samplesheet.txt 
+--prefix=test 
+--primers=DQA 
+--cutoff=7 
+--fc=3
 	
-	perl scripts/run_post_analysis.singlePrimers.pl 
-	--samplesheet=samplesheet.txt 
-	--prefix=test 
-	--primers=DQB 
-	--cutoff=3 
-	--fc=3
-	
-	```
+perl scripts/run_post_analysis.singlePrimers.pl 
+--samplesheet=samplesheet.txt 
+--prefix=test 
+--primers=DQB 
+--cutoff=3 
+--fc=3
+```
+
 * fc is the fold-change between higher allele counts v/s lower allele counts which is the 1bp variant and cutoff is the read frequency cutoff to eliminate low frequency alleles
  
 Final summary tables for each sample is saved in summary folder. And overall result is saved in main folder with the following extentions:
@@ -163,16 +165,15 @@ If you want to identify any known haplotypes in the samples, you need 1) haploty
 
 The following command can be used for MHC class I haplotyping
 	
-	```
-	perl scripts/haplotypingMHCI.pl 
-	--haplotypes=fasta/Bovine.mhci.haplotypes.txt 
-	--filtered=*.mhcI.selected.txt 
-	--discarded=*.mhcI.discarded.txt 
-	--summary=*.summary.mhci.matrix.txt 
-	--database=fasta/Bovine.MHCI.fasta 
-	--prefix=test
-	
-	```
+```
+perl scripts/haplotypingMHCI.pl 
+--haplotypes=fasta/Bovine.mhci.haplotypes.txt 
+--filtered=*.mhcI.selected.txt 
+--discarded=*.mhcI.discarded.txt 
+--summary=*.summary.mhci.matrix.txt 
+--database=fasta/Bovine.MHCI.fasta 
+--prefix=test
+```
 
 The haplotyping will create the following tables: 
 1. prefix.hp_mhci.txt: This table has the list of haplotypes for each sample with other information regarding read counts etc. 
@@ -182,14 +183,14 @@ The haplotyping will create the following tables:
 
 This script will haplotype class II. 
 	
-### Note: The haplotype database for classII is slightly tricky as we are looking at upto two DQA and upto two DQB. If you are using your own database of adding new haplotypes in available database, remember to leave a blank space in tab delimited file in case DQA or DQB allele is not present in haplotype.
+Note: The haplotype database for classII is slightly tricky as we are looking at upto two DQA and upto two DQB. If you are using your own database of adding new haplotypes in available database, remember to leave a blank space in tab delimited file in case DQA or DQB allele is not present in haplotype.
 
-	```
-	perl scripts/haplotypingMHCII.pl 
-	--haplotypes=fasta/Bovine.mhcii.haplotypes.txt 
-	--prefix=test 
-	--samplesheet=samplesheet.txt
-	```
+```
+perl scripts/haplotypingMHCII.pl 
+--haplotypes=fasta/Bovine.mhcii.haplotypes.txt 
+--prefix=test 
+--samplesheet=samplesheet.txt
+```
 	
 The class II haplotyping will create the following tables: 
 1. prefix.hp_mhcii.txt: This table has the list of haplotypes for each sample with other information regarding read counts etc. 
