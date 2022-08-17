@@ -68,7 +68,7 @@ foreach my $seq (sort {$new{$b} <=> $new{$a}} keys %new){
 	$ave1{$seq} = sprintf("%.2f", ($total_freq1/scalar(@freq1)));
 }
 
-open(SUMMARY, ">summary.$primer.matrix.txt");
+open(SUMMARY, ">$prefix.summary.$primer.csv");
 print SUMMARY "Sample\t$primer:Total_reads\t$primer:Trimmed_reads\t$primer:Overlapped_reads\t$primer:Primer_found\t$primer:No_of_clusters\t$primer:singletons\t$primer:lenDiff_reads\t$primer:chimera_reads\t$primer:variants_reads\t$primer:low_reads\t$primer:gap_reads\t$primer:selected_reads\t$primer:lenDiff_clusters\t$primer:chimera_clusters\t$primer:variants_clusters\t$primer:low_clusters\t$primer:gap_clusters\t$primer:selected_clusters\t$primer:mapped_reads\t$primer:discarded_reads\t$primer:new_reads\t$primer:splicevariant_reads\t$primer:mapped_clusters\t$primer:discarded_clusters\t$primer:splicevariant_clusters\t$primer:new_clusters\t$primer:count_selected\t$primer:count_rescued\t$primer:count_discarded\n";
 #Get in all new sequences...
 open (SAMPLESHEET, "$samplesheet") or die "Cannot open uploaded $samplesheet. Try again.\n";
@@ -210,8 +210,8 @@ while(<SAMPLESHEET>){
 
 	print SUMMARY "\t$primers_overlap\t$clusters\t$singles\t$lenDiff_reads\t$chimera_reads\t$variants_reads\t$low_reads\t$gap_reads\t$selected_reads\t$lenDiff\t$chimera\t$variants\t$low\t$gap\t$selected\t$mapped_reads\t$discarded_reads\t$new_reads\t$splicevariant_reads\t$mapped\t$discarded\t$splicevariant\t$new\t";
 
-	open (OUT_SELECTED, ">summary/$sample.$primer.selected.txt") or die "Cannot write $work_dir/$sample.$primer.selected.txt\n";
-	open (OUT_DISCARDED, ">summary/$sample.$primer.discarded.txt") or die "Cannot write $work_dir/$sample.$primer.discarded.txt\n";
+	open (OUT_SELECTED, ">summary/$sample.$primer.selected.csv") or die "Cannot write $work_dir/$sample.$primer.selected.txt\n";
+	open (OUT_DISCARDED, ">summary/$sample.$primer.discarded.csv") or die "Cannot write $work_dir/$sample.$primer.discarded.txt\n";
 
 	print OUT_SELECTED "$sample";
 	print OUT_DISCARDED "$sample";
@@ -298,3 +298,4 @@ foreach my $seq (sort {$final_new{$b} <=> $final_new{$a}} keys %final_new){
 	print NEW_FASTA ">$new_id{$seq}\n$seq\n";
 	print NEW_INFO "$new_id{$seq}\t$new_count{$seq}\t$ave1{$seq}\t$new_samples{$seq}\n";
 }
+
