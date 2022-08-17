@@ -113,6 +113,7 @@ Once above steps are done, follow the commands below:
 ## 2. Summary using multiple scripts
    There are bunch of scripts developed to summarise the result and create final tables. This phage is more dependent on which PCR primers were used.
    * MHCI:
+	
    MHCI data has two different primers used For1Rev2 and For3Rev1. The region covered by both primer sets overlap with each other. Thus, it is important to extend the sequence identified by both primer sets. The following command will overlap both sequences and then summary tables will be created. 
    ```
 	perl scripts/run_post_analysis.twoPrimers.pl 
@@ -121,38 +122,34 @@ Once above steps are done, follow the commands below:
 	--prefix=test 
 ```
 	
-   *MHCII:
-   There are three different MHCII PCR done - 
-   To get the final summary of the data, one more script to run that will create following files:
-1)	selected alleles
-2)	discarded alleles
-3)	summary read counts
-4)	in fasta folder – fasta of newly identified alleles and information file
-
-o	The following script is to make summary for classI data. It will take the sequences from both primers and merge them into single sequence by finding overlap
-perl scripts/run_post_analysis.twoPrimers.pl 
---samplesheet=samplesheet.txt 
---database=fasta/BoLA.MHCI.fasta  
---prefix=test 
---primer1=For1Rev2 
---primer2=For3Rev1 
---cutoff=0.2 
---fc=3
+   * MHCII:
+   There are three MHCII genes are sequenced - DRB3, DQA and DQB. Depending on the gene type, some parameters changes to create the final summary such as, cutoff, fold change etc. The following command will create summary files.
+	```
+	perl scripts/run_post_analysis.singlePrimers.pl 
+	--samplesheet=samplesheet.txt 
+	--prefix=test 
+	--primers=DRB3 
+	--cutoff=5 
+	--fc=3
 	
-•	fc is the fold-change between higher allele counts v/s lower allele counts which is the 1bp variant
-•	cutoff is the read frequency cutoff to eliminate low frequency alleles
-
-o	The following script is to make summary for classII data. You need to run this script for each of classII type if you have multiple– DRB3, DQA and DQB. Give the right information of cutoff, primers etc depending on classII type. It will create two files selected alleles and discarded alleles. 
-
-perl scripts/run_post_analysis.singlePrimers.pl 
---samplesheet=samplesheet.txt 
---prefix=test 
---primers=DRB3 
---cutoff=5 
---fc=3
-![image](https://user-images.githubusercontent.com/8590103/185091851-6f8cba71-b10e-4d36-80ec-ce0216cf314c.png)
-
-
+	perl scripts/run_post_analysis.singlePrimers.pl 
+	--samplesheet=samplesheet.txt 
+	--prefix=test 
+	--primers=DQA 
+	--cutoff=7 
+	--fc=3
+	
+	perl scripts/run_post_analysis.singlePrimers.pl 
+	--samplesheet=samplesheet.txt 
+	--prefix=test 
+	--primers=DQB 
+	--cutoff=3 
+	--fc=3
+	
+	```
+* fc is the fold-change between higher allele counts v/s lower allele counts which is the 1bp variant
+* cutoff is the read frequency cutoff to eliminate low frequency alleles
+ 
   ----
 ## Citations
 Vasoya D, Law A, Motta P, Yu M, Muwonge A, Cook E, Li X, Bryson K, MacCallam A, Sitt T, Toye P, Bronsvoort B, Watson M, Morrison WI, Connelley T. Rapid identification of bovine MHCI haplotypes in genetically divergent cattle populations using next-generation sequencing. Immunogenetics. 2016 Nov;68(10):765-781. [doi: 10.1007/s00251-016-0945-7](https://link.springer.com/article/10.1007/s00251-016-0945-7). Epub 2016 Aug 11. PMID: [27516207](https://link.springer.com/article/10.1007/s00251-016-0945-7)
