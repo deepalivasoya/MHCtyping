@@ -151,15 +151,17 @@ Once above steps are done, follow the commands below:
 * fc is the fold-change between higher allele counts v/s lower allele counts which is the 1bp variant and cutoff is the read frequency cutoff to eliminate low frequency alleles
  
 Final summary tables for each sample is saved in summary folder. And overall result is saved in main folder with the following extentions:
-	1. *.selected.txt
-	2. *.discarded.txt
+	1. *.selected.csv
+	2. *.discarded.csv
 	3. *.summary.*.csv
+
+* If you are looking of any potential new sequence that was not present in the database, check out the files created in fasta folder. This files are prefixed with "new". 
 
 ### Haplotyping
 	
 If you want to identify any known haplotypes in the samples, you need 1) haplotype database – this file is simply tab delimited files with first column of haplotype id and columns for alleles. The current haplotype database and 2)  sequences is available in fasta folder. 
 
-	The following command can be used for MHC class I haplotyping
+The following command can be used for MHC class I haplotyping
 	
 	```
 	perl scripts/haplotypingMHCI.pl 
@@ -169,11 +171,18 @@ If you want to identify any known haplotypes in the samples, you need 1) haploty
 	--summary=*.summary.mhci.matrix.txt 
 	--database=fasta/Bovine.MHCI.fasta 
 	--prefix=test
+	
 	```
 
+The haplotyping will create the following tables: 
+1. prefix.hp_mhci.txt: This table has the list of haplotypes for each sample with other information regarding read counts etc. 
+2. prefix.hp_alleles_mhci.txt: This table has the alleles for each haplotypes listed in hp_mhci.txt
+3. prefix.nonhp_mhci.txt: This table has all unassigned alleles that were not identified by any haplotypes. 
+4. prefix.contamination_mhci.txt: This table has the alleles for haplotypes that are identified as contamination. 
 
-	This script will haplotype classII. 
-	###Note: The haplotype database for classII is slightly tricky as we are looking at upto two DQA and upto two DQB. If you are using your own database of adding new haplotypes in available database, remember to leave a blank space in tab delimited file in case DQA or DQB allele is not present in haplotype.
+This script will haplotype class II. 
+	
+### Note: The haplotype database for classII is slightly tricky as we are looking at upto two DQA and upto two DQB. If you are using your own database of adding new haplotypes in available database, remember to leave a blank space in tab delimited file in case DQA or DQB allele is not present in haplotype.
 
 	```
 	perl scripts/haplotypingMHCII.pl 
@@ -182,6 +191,14 @@ If you want to identify any known haplotypes in the samples, you need 1) haploty
 	--samplesheet=samplesheet.txt
 	```
 	
+The class II haplotyping will create the following tables: 
+1. prefix.hp_mhcii.txt: This table has the list of haplotypes for each sample with other information regarding read counts etc. 
+2. prefix.hp_genes_mhcii.txt: This table has the alleles for each haplotypes listed in hp_mhci.txt
+3. prefix.dqa_nonhp.txt: This table has all unassigned DQA alleles that were not identified by any haplotypes. 
+4. prefix.dqb_nonhp.txt: This table has all unassigned DQB alleles that were not identified by any haplotypes. 
+5. prefix.drb3_nonhp.txt: This table has all unassigned DRB3 alleles that were not identified by any haplotypes. 
+
+
 
   ----
 ## Citations
