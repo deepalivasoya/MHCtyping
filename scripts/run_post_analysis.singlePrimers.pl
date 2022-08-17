@@ -17,5 +17,5 @@ GetOptions(
 
 
 system ("perl scripts/makeSummarySinglePrimers.pl --samplesheet=$samplesheet --prefix=$prefix --primers=$primers --cutoff=$cutoff --fc=$fc");
-system ("cat summary/*.$primers.selected.txt > $prefix.$primers.selected.txt");
-system ("cat summary/*.$primers.discarded.txt > $prefix.$primers.discarded.txt");
+system ("cat summary/*.$primers.selected.tsv > $prefix.$primers.selected.tsv");
+system ("cat summary/*.$primers.discarded.tsv > $prefix.$primers.discarded.tsv");
