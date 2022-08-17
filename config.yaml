@@ -1,0 +1,49 @@
+read_quality_threshold: 28
+read_trim_length_threshold: 150
+maximum_overlap: 300
+minimum_overlap: 20
+amplicon_size:
+  For1Rev2: 378
+  For3Rev1: 318
+  DRB3: 324
+  DQA: 261
+  DQB: 281
+read_count_percent_threshold: 
+  For1Rev2: 0.2
+  For3Rev1: 0.2
+  DRB3: 5
+  DQA: 7
+  DQB: 3
+fold_change_discarded:
+  For1Rev2: 3
+  For3Rev1: 3
+  DRB3: 3
+  DQA: 3
+  DQB: 3
+no_of_clusters: 1000
+primers:
+  For1Rev2: "fasta/Bovine.For1Rev2.primers.fa"
+  For3Rev1: "fasta/Bovine.For3Rev1.primers.fa"
+  DRB3: "fasta/Bovine.DRB3.primers.fa"
+  DQA: "fasta/Bovine.DQA.primers.fa"
+  DQB: "fasta/Bovine.DQB.primers.fa"
+database:
+  For1Rev2: "fasta/Bovine.MHCI.fasta"
+  For3Rev1: "fasta/Bovine.MHCI.fasta"
+  DRB3: "fasta/Bovine.DRB3.fasta"
+  DQA: "fasta/Bovine.DQA.fasta"
+  DQB: "fasta/Bovine.DQB.fasta"
+samples:
+  - Ivan_011
+  - Ivan_2059
+  - Ivan_2854
+  - Ivan_3846
+  - Ivan_4003
+  - Ivan_641
+reads:
+  Ivan_011: "Ivan_011/200107_M05898_0124_000000000-CPRF5_1_11962CT0129L01"
+  Ivan_2059: "Ivan_2059/200107_M05898_0124_000000000-CPRF5_1_11962CT0130L01"
+  Ivan_2854: "Ivan_2854/200107_M05898_0124_000000000-CPRF5_1_11962CT0131L01"
+  Ivan_3846: "Ivan_3846/200107_M05898_0124_000000000-CPRF5_1_11962CT0132L01"
+  Ivan_4003: "Ivan_4003/200107_M05898_0124_000000000-CPRF5_1_11962CT0133L01"
+  Ivan_641: "Ivan_641/200107_M05898_0124_000000000-CPRF5_1_11962CT0134L01"
