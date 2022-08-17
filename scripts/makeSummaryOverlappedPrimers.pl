@@ -95,7 +95,7 @@ foreach my $id1 (keys %for3){
 	}
 }
 
-open(SUMMARY, ">summary_counts.MHCI.txt");
+open(SUMMARY, ">$prefix.summary.MHCI.csv");
 print SUMMARY "sample\tTotal reads\tQuality trimmed\tOverlapping reads\tPrimer1 reads\tPrimer1  Number of clusters\tPrimer1  Singletons\tPrimer1  Reads: size difference\tPrimer1  Reads: Chimeras\tPrimer1  Reads: 1bp variants\tPrimer1  Reads: Low counts\tPrimer1  Reads: ambiguous calls\tPrimer1  Filtered reads\tPrimer1  Clusters: size difference\tPrimer1  Clusters: Chimeras\tPrimer1  Clusters: 1bp variants\tPrimer1  Clusters: Low counts\tPrimer1  Clusters: ambiguous calls\tPrimer1  Filtered clusters\tPrimer1  Reads: Mapped on database\tPrimer1  Reads: Discarded mapped on database\tPrimer1  Reads: Novel\tPrimer1  Reads: Trimmed end\tPrimer1  Clusters: Mapped on database\tPrimer1  Clusters: Discarded mapped on database\tPrimer1  Clusters: Novel\tPrimer1  Clusters: Trimmed end\tPrimer2 reads\tPrimer2 Number of clusters\tPrimer2 Singletons\tPrimer2 Reads: size difference\tPrimer2 Reads: Chimeras\tPrimer2 Reads: 1bp variants\tPrimer2 Reads: Low counts\tPrimer2 Reads: ambiguous calls\tPrimer2 Filtered reads\tPrimer2 Clusters: size difference\tPrimer2 Clusters: Chimeras\tPrimer2 Clusters: 1bp variants\tPrimer2 Clusters: Low counts\tPrimer2 Clusters: ambiguous calls\tPrimer2 Filtered clusters\tPrimer2 Reads: Mapped on database\tPrimer2 Reads: Discarded mapped on database\tPrimer2 Reads: Novel\tPrimer2 Reads: Trimmed end\tPrimer2 Clusters: Mapped on database\tPrimer2 Clusters: Discarded mapped on database\tPrimer2 Clusters: Novel\tPrimer2 Clusters: Trimmed end\n";
 #Get in all new sequences...
 open (SAMPLESHEET, "$samplesheet") or die "Cannot open uploaded $samplesheet. Try again.\n";
@@ -300,11 +300,11 @@ while(<SAMPLESHEET>){
 	my @words = split("\t", $_);
 	my $sample = $words[0];
 
-	open (OUT_STAT, ">summary/$sample.mhcI.stat.txt") or die "Cannot write $work_dir/$sample.mhcI.stat.txt\n";
-	open (OUT_SELECTED, ">summary/$sample.mhcI.selected.txt") or die "Cannot write $work_dir/$sample.mhcI.selected.txt\n";
-	open (OUT_DISCARDED, ">summary/$sample.mhcI.discarded.txt") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
-	open (OUT_AMBI, ">summary/$sample.mhcI.ambiguous.txt") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
-	open (OUT_NC, ">summary/$sample.mhcI.nc.txt") or die "Cannot write $work_dir/$sample.mhcI.nc.txt\n";
+	open (OUT_STAT, ">summary/$sample.mhcI.stat.csv") or die "Cannot write $work_dir/$sample.mhcI.stat.txt\n";
+	open (OUT_SELECTED, ">summary/$sample.mhcI.selected.csv") or die "Cannot write $work_dir/$sample.mhcI.selected.txt\n";
+	open (OUT_DISCARDED, ">summary/$sample.mhcI.discarded.csv") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
+	open (OUT_AMBI, ">summary/$sample.mhcI.ambiguous.csv") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
+	open (OUT_NC, ">summary/$sample.mhcI.nc.csv") or die "Cannot write $work_dir/$sample.mhcI.nc.txt\n";
 
 	print OUT_SELECTED "$sample";
 	print OUT_DISCARDED "$sample";
