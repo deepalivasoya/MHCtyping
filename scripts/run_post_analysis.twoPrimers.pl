@@ -30,7 +30,7 @@ while(<SAMPLESHEET>){
 }
 
 system ("perl scripts/makeSummaryOverlappedPrimers.pl --samplesheet=$samplesheet --prefix=$prefix --cutoff=$cutoff --database=fasta/MHCI.fasta --fc=$fc");
-system ("cat summary/*.mhcI.selected.txt > $prefix.mhcI.selected.txt");
-system ("cat summary/*.mhcI.discarded.txt > $prefix.mhcI.discarded.txt");
-system ("cat summary/*.mhcI.nc.txt > $prefix.mhcI.nc.txt");
+system ("cat summary/*.mhcI.selected.tsv > $prefix.mhcI.selected.tsv");
+system ("cat summary/*.mhcI.discarded.tsv > $prefix.mhcI.discarded.tsv");
+system ("cat summary/*.mhcI.nc.tsv > $prefix.mhcI.nc.tsv");
 
