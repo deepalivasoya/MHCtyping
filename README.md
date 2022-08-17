@@ -123,6 +123,7 @@ Once above steps are done, follow the commands below:
 ```
 	
    * MHCII:
+	
    There are three MHCII genes are sequenced - DRB3, DQA and DQB. Depending on the gene type, some parameters changes to create the final summary such as, cutoff, fold change etc. The following command will create summary files.
 	```
 	perl scripts/run_post_analysis.singlePrimers.pl 
@@ -147,9 +148,41 @@ Once above steps are done, follow the commands below:
 	--fc=3
 	
 	```
-* fc is the fold-change between higher allele counts v/s lower allele counts which is the 1bp variant
-* cutoff is the read frequency cutoff to eliminate low frequency alleles
+* fc is the fold-change between higher allele counts v/s lower allele counts which is the 1bp variant and cutoff is the read frequency cutoff to eliminate low frequency alleles
  
+Final summary tables for each sample is saved in summary folder. And overall result is saved in main folder with the following extentions:
+	1. *.selected.txt
+	2. *.discarded.txt
+	3. *.summary.*.csv
+
+### Haplotyping
+	
+If you want to identify any known haplotypes in the samples, you need 1) haplotype database – this file is simply tab delimited files with first column of haplotype id and columns for alleles. The current haplotype database and 2)  sequences is available in fasta folder. 
+
+	The following command can be used for MHC class I haplotyping
+	
+	```
+	perl scripts/haplotypingMHCI.pl 
+	--haplotypes=fasta/Bovine.mhci.haplotypes.txt 
+	--filtered=*.mhcI.selected.txt 
+	--discarded=*.mhcI.discarded.txt 
+	--summary=*.summary.mhci.matrix.txt 
+	--database=fasta/Bovine.MHCI.fasta 
+	--prefix=test
+	```
+
+
+	This script will haplotype classII. 
+	###Note: The haplotype database for classII is slightly tricky as we are looking at upto two DQA and upto two DQB. If you are using your own database of adding new haplotypes in available database, remember to leave a blank space in tab delimited file in case DQA or DQB allele is not present in haplotype.
+
+	```
+	perl scripts/haplotypingMHCII.pl 
+	--haplotypes=fasta/Bovine.mhcii.haplotypes.txt 
+	--prefix=test 
+	--samplesheet=samplesheet.txt
+	```
+	
+
   ----
 ## Citations
 Vasoya D, Law A, Motta P, Yu M, Muwonge A, Cook E, Li X, Bryson K, MacCallam A, Sitt T, Toye P, Bronsvoort B, Watson M, Morrison WI, Connelley T. Rapid identification of bovine MHCI haplotypes in genetically divergent cattle populations using next-generation sequencing. Immunogenetics. 2016 Nov;68(10):765-781. [doi: 10.1007/s00251-016-0945-7](https://link.springer.com/article/10.1007/s00251-016-0945-7). Epub 2016 Aug 11. PMID: [27516207](https://link.springer.com/article/10.1007/s00251-016-0945-7)
