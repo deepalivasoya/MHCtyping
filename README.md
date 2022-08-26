@@ -42,9 +42,9 @@ All sequencing facility has their own format of data files and folder structure.
 If you want to check what these files have, simply use command less <file> command.
 For example, `less 180831_M05898_0019_000000000-BYR6F_1_11441CT0099L01_1.fastq.count`
 
-If you are using same index for multiple samples (like we did with Pig, Cattle and Sheep recently), we must make sure we assign samples with the correct files in the config file (see below).
+If you are using same index for multiple samples, we must make sure we assign samples with the correct files in the config file.
 
-Raw reads files must end with *_1.fastq.gz* and *_2.fastq.gz* as my script recognises forward and reverse read by this extension. 
+Raw reads files must end with *_1.fastq.gz* and *_2.fastq.gz* as Snakefile recognises forward and reverse read by this extension OR you can change the extension of the input reads in Snakefile
 
 ### Conda environment:
 
