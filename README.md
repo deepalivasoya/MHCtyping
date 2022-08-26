@@ -199,6 +199,8 @@ The class II haplotyping will create the following tables:
 5. prefix.drb3_nonhp.txt: This table has all unassigned DRB3 alleles that were not identified by any haplotypes. 
 
 
+# Example data
+* Example data for the published articles can be found here: PRJEB14552 and PRJEB44287
 
   ----
 ## Citations
