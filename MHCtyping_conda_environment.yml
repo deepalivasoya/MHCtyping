@@ -1,4 +1,4 @@
-name: amplicon
+name: mhc
 channels:
 - defaults
 - bioconda
