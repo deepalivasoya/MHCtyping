@@ -27,6 +27,50 @@ my %reverse_primer_revcomp = ();
 my $count_for = 0;
 my $count_rev = 0;
 
+my %iupac_codes = (
+    'R' => ['A', 'G'],
+    'Y' => ['C', 'T'],
+    'S' => ['G', 'C'],
+    'W' => ['A', 'T'],
+    'K' => ['G', 'T'],
+    'M' => ['A', 'C'],
+    'B' => ['C', 'G', 'T'],
+    'D' => ['A', 'G', 'T'],
+    'H' => ['A', 'C', 'T'],
+    'V' => ['A', 'C', 'G'],
+    'N' => ['A', 'C', 'G', 'T'],
+);
+
+sub generate_sequences {
+    my ($seq) = @_;
+    
+    # Base case: if the sequence is empty, return an empty string
+    return ('') if length($seq) == 0;
+
+    # Get the first character of the sequence
+    my $first_char = substr($seq, 0, 1);
+    
+    # Get the rest of the sequence
+    my $rest = substr($seq, 1);
+
+    # Get all possible sequences for the rest of the sequence
+    my @rest_sequences = generate_sequences($rest);
+
+    # If the first character is in the IUPAC codes, expand it
+    if (exists $iupac_codes{$first_char}) {
+        my @expanded_sequences;
+        foreach my $base (@{$iupac_codes{$first_char}}) {
+            foreach my $rest_seq (@rest_sequences) {
+                push @expanded_sequences, $base . $rest_seq;
+            }
+        }
+        return @expanded_sequences;
+    }
+    # If it's a standard base (A, C, G, T), just pass it through
+    else {
+        return map { $first_char . $_ } @rest_sequences;
+    }
+}
 
 open (IN, "$primers") or print "Cannot read/find $primers\n";
 while(<IN>){
@@ -36,20 +80,25 @@ while(<IN>){
 	}
 	else{
 		$seq = $_;
-		$seq_revcomp = "";
+		@possible_sequences = generate_sequences($seq);
 		if ($id =~ /for/i){
-			$count_for++;
-			$forward_primer{$count_for} = $seq;
-			$seq_revcomp = reverse $seq;
-			$seq_revcomp =~ tr/ATGCatgc/TACGtacg/;
-			$forward_primer_revcomp{$count_for} = $seq_revcomp;
+			foreach my $sequence (@possible_sequences) {
+				$seq_revcomp = "";
+				$count_for++;
+				$forward_primer{$count_for} = $sequence;
+				$seq_revcomp = reverse $sequence;
+				$seq_revcomp =~ tr/ATGCatgc/TACGtacg/;
+				$forward_primer_revcomp{$count_for} = $seq_revcomp;
+			}
 		} 
 		elsif ($id =~ /rev/i){
-			$count_rev++;
-			$reverse_primer{$count_rev} = $seq;
-			$seq_revcomp = reverse $seq;
-			$seq_revcomp =~ tr/ATGCatgc/TACGtacg/;
-			$reverse_primer_revcomp{$count_rev} = $seq_revcomp;
+			foreach my $sequence (@possible_sequences) {
+				$count_rev++;
+				$reverse_primer{$count_rev} = $sequence;
+				$seq_revcomp = reverse $sequence;
+				$seq_revcomp =~ tr/ATGCatgc/TACGtacg/;
+				$reverse_primer_revcomp{$count_rev} = $seq_revcomp;
+			}
 		}
 	}
 }
@@ -148,7 +197,7 @@ if ( -e $flash_reads ){
 				$total_primer_reads++;
 				$len = length($trimmed_seq);
 				$flash_len{$len}++;
-				print OUT_PRIMERS "$id/$sample/extended/$len\n$trimmed_seq\n";
+				# print OUT_PRIMERS "$id/$sample/extended/$len\n$trimmed_seq\n";
 			}
 			$line = 2;
 			next;
@@ -167,14 +216,14 @@ else{
 	print "Cannot read $flash_reads.\n";
 }
 		
-print "Writting lengh histogram..."
-open (OUT_PRIMERS_LEN, ">$work_dir/$sample.$prefix.seq.len_hist.csv") or die "Cannot write $work_dir/$sample/$sample.$prefix.seq.len_hist.csv\n";
+print "Writting lengh histogram...";
+open (OUT_PRIMERS_LEN, ">$work_dir/$sample.$prefix.seq.len_hist.tsv") or die "Cannot write $work_dir/$sample/$sample.$prefix.seq.len_hist.tsv\n";
 foreach my $len (sort{$a <=> $b} keys %flash_len){
 	print OUT_PRIMERS_LEN "$len\t$flash_len{$len}\n";
 }
 
-print "Writting unique variants log $work_dir/$sample.primers.info.txt...\n";
-open (INFO, ">$work_dir/$sample.$prefix.primers.info.txt") or die "Cannot write $work_dir/$sample.$prefix.primers.info.txt\n";
+print "Writting unique variants log $work_dir/$sample.primers.info.tsv...\n";
+open (INFO, ">$work_dir/$sample.$prefix.primers.info.tsv") or die "Cannot write $work_dir/$sample.$prefix.primers.info.tsv\n";
 print INFO "Sample\tForward primer\tReverse primer\tOrientation\tread counts\n";
 foreach $primer (sort {$primer_group{$b} <=> $primer_group{$a}} keys %primer_group){
 	print INFO "$primer\t$primer_group{$primer}\n";
@@ -212,7 +261,7 @@ print "Total sequences with $prefix primers in overlapped reads: $total_primer_r
 print "Total cluster: $count_clusters\n";
 print "Total singletons: $count_singles\n";
 
-open (STAT, ">", "$work_dir/$sample.$prefix.sort.stats.csv");
+open (STAT, ">", "$work_dir/$sample.$prefix.sort.stats.tsv");
 print STAT "$sample\t$prefix\t$total_primer_reads\t$count_clusters\t$count_singles\n";
 close (STAT);
 

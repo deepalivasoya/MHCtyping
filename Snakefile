@@ -2,7 +2,7 @@ configfile: "config.yaml"
 # print(config['samples'][0])
 
 rule main:
-  input: expand("results/{sample}/{sample}.{pcr}.clusters.blast.stats.csv", sample=config["samples"], pcr=config["primers"].keys())
+  input: expand("results/{sample}/{sample}.{pcr}.clusters.stats.tsv", sample=config["samples"], pcr=config["primers"].keys())
 
 #Rule for quality trimming sequencing reads
 rule trim:
@@ -46,7 +46,7 @@ rule overlap:
 
 #Rule to segragate extended reads using primer sequencing and the cluster 100% identical sequences
 rule sort:
- output: "results/{sample}/{sample}.{pcr}.sort.stats.csv"
+ output: "results/{sample}/{sample}.{pcr}.sort.stats.tsv"
  input: "results/{sample}/{sample}.overlap_by_flash.log"
  params:
   prefix = "{sample}",
@@ -56,45 +56,44 @@ rule sort:
  shell:
   "perl scripts/sortPrimers.pl --sample={params.prefix} --work_dir={params.directory} --primers={params.pcr} --primer_seq={params.primers}"
 
-#Rule to check each cluster (top 1000 clusters only) for chimera, 1bp variants, >9bp length difference, ambiguous calls etc. 
-rule filtering:
- output: "results/{sample}/{sample}.{pcr}.clusters.stats.csv"
- input: "results/{sample}/{sample}.{pcr}.sort.stats.csv"
- params:
-  prefix = "{sample}",
-  directory = "results/{sample}",
-  pcr = "{pcr}",
-  length = lambda wildcards: config['amplicon_size'][wildcards.pcr],
-  no_of_clusters = config["no_of_clusters"]
- shell:
-  "perl scripts/filterSequences.pl --sample={params.prefix} --work_dir={params.directory} --primers={params.pcr} --ampliconSize={params.length}"
-
 #Rule to run blast 
 rule blast:
  output: "results/{sample}/{sample}.{pcr}.clusters.blast"
- input: 
-  log = "results/{sample}/{sample}.{pcr}.clusters.stats.csv"
+ input: "results/{sample}/{sample}.{pcr}.sort.stats.tsv"
  params:
   reference = lambda wildcards: config['database'][wildcards.pcr],
   query = "results/{sample}/{sample}.{pcr}.clusters.fasta"
  shell:
   "blastn -db {params.reference} -query {params.query} -outfmt '6 qseqid sseqid pident length qlen qstart qend slen sstart send mismatch gapopen evalue bitscore' -out {output}"
-  
+
 #Rule for analying the blast result and categoried the result
 rule analyse_blast:
- output: "results/{sample}/{sample}.{pcr}.clusters.blast.stats.csv"
+ output: "results/{sample}/{sample}.{pcr}.clusters.blast.stats.tsv"
  input: "results/{sample}/{sample}.{pcr}.clusters.blast"
  params:
   prefix = "{sample}",
   pcr = "{pcr}",
   directory = "results/{sample}",
-  filtered = "results/{sample}/{sample}.{pcr}.clusters.details.txt",
+  length = lambda wildcards: config['amplicon_size'][wildcards.pcr],
   clusters_fasta = "results/{sample}/{sample}.{pcr}.clusters.fasta",
+ shell:
+  "perl scripts/reportMapping.pl --sample={params.prefix} --work_dir={params.directory} --primers={params.pcr} --ampliconSize={params.length} --blast_file={input} --cluster_fasta={params.clusters_fasta}"
+ 
+#Rule to check each cluster (top 1000 clusters only) for chimera, 1bp variants, >9bp length difference, ambiguous calls etc. 
+rule filtering:
+ output: "results/{sample}/{sample}.{pcr}.clusters.stats.tsv"
+ input: "results/{sample}/{sample}.{pcr}.clusters.blast.stats.tsv"
+ params:
+  prefix = "{sample}",
+  directory = "results/{sample}",
+  pcr = "{pcr}",
+  length = lambda wildcards: config['amplicon_size'][wildcards.pcr],
   cutoff = lambda wildcards: config['read_count_percent_threshold'][wildcards.pcr],
   fc = lambda wildcards: config['fold_change_discarded'][wildcards.pcr]
  shell:
-  "perl scripts/reportMapping.pl --sample={params.prefix} --work_dir={params.directory} --primers={params.pcr} --blast_file={input} --cluster_details={params.filtered} --cluster_fasta={params.clusters_fasta} --cutoff={params.cutoff} --fc={params.fc}"
-  
+  "perl scripts/filterSequences.pl --sample={params.prefix} --work_dir={params.directory} --primers={params.pcr} --ampliconSize={params.length} --cutoff={params.cutoff} --fc={params.fc}"
+
+ 
 
 
 
