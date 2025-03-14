@@ -1,0 +1,9 @@
+*.zip
+*.blast
+*.tsv
+*.cluster.fasta
+*.selected.fasta
+*.log
+*.gz
+*.histogram*
+*.hist*
