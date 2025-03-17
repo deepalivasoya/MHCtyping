@@ -1,31 +1,32 @@
+use Getopt::Long;
 use warnings;
 no warnings ('uninitialized', 'substr');
 use Cwd;
 
 my $samplesheet = "samplesheet.txt";
-my $prefix = "sample";
-my $cutoff = 0;
-my $in_fasta = "fasta/MHCI.fasta";
-my $foldchange = 0;
+my $prefix      = "sample";
+my $cutoff      = 0;
+my $in_fasta    = "fasta/MHCI.fasta";
+my $foldchange  = 0;
 
 GetOptions(
-    'samplesheet=s'    => \$samplesheet,
-    'prefix=s'     => \$prefix,
-    'cutoff=s' => \$cutoff,
-    'database=i'     => \$in_fasta,
-    'fc=i'     => \$foldchange
+    'samplesheet=s' => \$samplesheet,
+    'prefix=s'      => \$prefix,
+    'cutoff=s'      => \$cutoff,
+    'database=s'    => \$in_fasta,
+    'fc=i'          => \$foldchange
 ) or print "Invalid options\n";
 
 
-my %new = ();
+my %new         = ();
 my %new_samples = ();
-my %new_freq1 = ();
-my %new_freq2 = ();
+my %new_freq1   = ();
+my %new_freq2   = ();
 
 my %redundant1 = ();
 my %redundant2 = ();
-my %for1 = ();
-my %for3 = ();
+my %for1       = ();
+my %for3       = ();
 
 open(IN, "$in_fasta");
 while(<IN>) {
@@ -101,11 +102,11 @@ print SUMMARY "sample\tTotal reads\tQuality trimmed\tOverlapping reads\tPrimer1 
 open (SAMPLESHEET, "$samplesheet") or die "Cannot open uploaded $samplesheet. Try again.\n";
 while(<SAMPLESHEET>){
 	chomp $_;
-	my @words = split("\t", $_);
-	my $sample = $words[0];
-	$sickle_log = "results/$sample/$sample.trimming_by_sickle.log";
-	my $total_reads = 0;
-	my $trimmed_paired = 0;
+	my @words             = split("\t", $_);
+	my $sample            = $words[0];
+	$sickle_log           = "results/$sample/$sample.trimming_by_sickle.log";
+	my $total_reads       = 0;
+	my $trimmed_paired    = 0;
 	my $overlapped_paired = 0;
 
 	#To get total read counts and quality trimmed counts
@@ -151,39 +152,39 @@ while(<SAMPLESHEET>){
 
 
 	foreach $primer ("For1Rev2", "For3Rev1"){
-		my $primers_overlap = 0;
-		my $clusters = 0;
-		my $singles = 0;
-		my $lenDiff_reads = 0;
-		my $chimera_reads = 0;
-		my $variants_reads = 0;
-		my $low_reads = 0;
-		my $gap_reads = 0;
-		my $selected_reads = 0;
-		my $lenDiff = 0;
-		my $chimera = 0;
-		my $variants = 0;
-		my $low = 0;
-		my $gap = 0;
-		my $selected = 0;
-		my $mapped_reads = 0;
-		my $discarded_reads = 0;
-		my $new_reads = 0;
+		my $primers_overlap     = 0;
+		my $clusters            = 0;
+		my $singles             = 0;
+		my $lenDiff_reads       = 0;
+		my $chimera_reads       = 0;
+		my $variants_reads      = 0;
+		my $low_reads           = 0;
+		my $gap_reads           = 0;
+		my $selected_reads      = 0;
+		my $lenDiff             = 0;
+		my $chimera             = 0;
+		my $variants            = 0;
+		my $low                 = 0;
+		my $gap                 = 0;
+		my $selected            = 0;
+		my $mapped_reads        = 0;
+		my $discarded_reads     = 0;
+		my $new_reads           = 0;
 		my $splicevariant_reads = 0;
-		my $mapped = 0;
-		my $discarded = 0;
-		my $splicevariant = 0;
-		my $new = 0;
+		my $mapped              = 0;
+		my $discarded           = 0;
+		my $splicevariant       = 0;
+		my $new                 = 0;
 		
-		$sort_primer = "results/$sample/$sample.$primer.sort.stats.txt";
+		$sort_primer = "results/$sample/$sample.$primer.sort.stats.tsv";
 		if (-e $sort_primer){
 			open (IN, "$sort_primer");
 			while (<IN>){
 				chomp $_;
-				@words = split("\t", $_);
+				@words           = split("\t", $_);
 				$primers_overlap = $words[2];
-				$clusters = $words[3];
-				$singles = $words[4];
+				$clusters        = $words[3];
+				$singles         = $words[4];
 			}
 			close(IN);
 		}
@@ -191,24 +192,24 @@ while(<SAMPLESHEET>){
 			print "Cannot find $sort_primer\n";
 		}
 
-		$filter_log = "results/$sample/$sample.$primer.clusters.stats.txt";
+		$filter_log = "results/$sample/$sample.$primer.clusters.stats.tsv";
 		if (-e $filter_log){
 			open (IN, "$filter_log");
 			while (<IN>){
 				chomp $_;
-				@words = split("\t", $_);
-				$lenDiff_reads = $words[1];
-				$chimera_reads = $words[2];
+				@words          = split("\t", $_);
+				$lenDiff_reads  = $words[1];
+				$chimera_reads  = $words[2];
 				$variants_reads = $words[3];
-				$low_reads = $words[4];
-				$gap_reads = $words[5];
+				$low_reads      = $words[4];
+				$gap_reads      = $words[5];
 				$selected_reads = $words[6];
-				$lenDiff = $words[7];
-				$chimera = $words[8];
-				$variants = $words[9];
-				$low = $words[10];
-				$gap = $words[11];
-				$selected = $words[12];
+				$lenDiff        = $words[7];
+				$chimera        = $words[8];
+				$variants       = $words[9];
+				$low            = $words[10];
+				$gap            = $words[11];
+				$selected       = $words[12];
 			}
 			close(IN);
 		}
@@ -216,20 +217,20 @@ while(<SAMPLESHEET>){
 			print "Cannot find $filter_log\n";
 		}
 
-		$mapping_log = "results/$sample/$sample.$primer.clusters.blast.stats.txt";
+		$mapping_log = "results/$sample/$sample.$primer.clusters.blast.stats.tsv";
 		if (-e $mapping_log){
 			open (IN, "$mapping_log");
 			while (<IN>){
 				chomp $_;
-				@words = split("\t", $_);
-				$mapped_reads = $words[2];
-				$discarded_reads = $words[3];
-				$new_reads = $words[4];
+				@words               = split("\t", $_);
+				$mapped_reads        = $words[2];
+				$discarded_reads     = $words[3];
+				$new_reads           = $words[4];
 				$splicevariant_reads = $words[5];
-				$mapped = $words[6];
-				$discarded = $words[7];
-				$splicevariant = $words[8];
-				$new = $words[9];
+				$mapped              = $words[6];
+				$discarded           = $words[7];
+				$splicevariant       = $words[8];
+				$new                 = $words[9];
 			}
 			close(IN);
 		}
@@ -275,20 +276,23 @@ my $count = 0;
 my %new_id = ();
 foreach my $seq (sort {$new{$b} <=> $new{$a}} keys %new){
 	$count++;
-	my $id = "$prefix"."_new$count";
+	my $id        = "$prefix"."_new$count";
 	$new_id{$seq} = $id;
 	chop $new_freq1{$seq};
 	chop $new_freq2{$seq};
-	@freq1 = split(",", $new_freq1{$seq});
-	@freq2 = split(",", $new_freq2{$seq});
-	$total_freq1 = 0;
-	$total_freq2 = 0;
+	@freq1        = split(",", $new_freq1{$seq});
+	@freq2        = split(",", $new_freq2{$seq});
+	$total_freq1  = 0;
+	$total_freq2  = 0;
+
 	foreach $freq (@freq1){
 		$total_freq1 = $total_freq1 + $freq;
 	}
+	
 	foreach $freq (@freq2){
 		$total_freq2 = $total_freq2 + $freq;
 	}
+
 	$ave1{$seq} = sprintf("%.2f", ($total_freq1/scalar(@freq1)));
 	$ave2{$seq} = sprintf("%.2f", ($total_freq2/scalar(@freq2)));
 }
@@ -300,11 +304,11 @@ while(<SAMPLESHEET>){
 	my @words = split("\t", $_);
 	my $sample = $words[0];
 
-	open (OUT_STAT, ">summary/$sample.mhcI.stat.tsv") or die "Cannot write $work_dir/$sample.mhcI.stat.txt\n";
-	open (OUT_SELECTED, ">summary/$sample.mhcI.selected.tsv") or die "Cannot write $work_dir/$sample.mhcI.selected.txt\n";
+	open (OUT_STAT,      ">summary/$sample.mhcI.stat.tsv"     ) or die "Cannot write $work_dir/$sample.mhcI.stat.txt\n";
+	open (OUT_SELECTED,  ">summary/$sample.mhcI.selected.tsv" ) or die "Cannot write $work_dir/$sample.mhcI.selected.txt\n";
 	open (OUT_DISCARDED, ">summary/$sample.mhcI.discarded.tsv") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
-	open (OUT_AMBI, ">summary/$sample.mhcI.ambiguous.tsv") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
-	open (OUT_NC, ">summary/$sample.mhcI.nc.tsv") or die "Cannot write $work_dir/$sample.mhcI.nc.txt\n";
+	open (OUT_AMBI,      ">summary/$sample.mhcI.ambiguous.tsv") or die "Cannot write $work_dir/$sample.mhcI.discarded.txt\n";
+	open (OUT_NC,        ">summary/$sample.mhcI.nc.tsv"       ) or die "Cannot write $work_dir/$sample.mhcI.nc.txt\n";
 
 	print OUT_SELECTED "$sample";
 	print OUT_DISCARDED "$sample";
@@ -312,23 +316,26 @@ while(<SAMPLESHEET>){
 	print OUT_AMBI "$sample";
 	# print OUT_RESCUED "$sample";
 
-	my $count_nc1 = 0;
-	my $count_nc2 = 0;
-	my $count_selected1 = 0;
+	my $count_nc1        = 0;
+	my $count_nc2        = 0;
+	my $count_selected1  = 0;
 	my $count_discarded1 = 0;
-	my $count_rescued1 = 0;
-	my $count_rescued2 = 0;
-	my $count_selected2 = 0;
+	my $count_rescued1   = 0;
+	my $count_rescued2   = 0;
+	my $count_selected2  = 0;
 	my $count_discarded2 = 0;
 	my $count_ambiguous1 = 0;
 	my $count_ambiguous2 = 0;
-	my %flag_redundant = ();
+	my %flag_redundant   = ();
 	my %all;
+
 	$file = "results/$sample/$sample.mhcI.overlapped.fasta";
+
 	print "\n\nRunning $sample...\n";
 	if (-s $file){
 		open(IN, "$file");
 		$count = 0;
+
 		while(<IN>) {
 			chomp $_;
 			if (/^>(.+)/){
@@ -336,16 +343,17 @@ while(<SAMPLESHEET>){
 			}
 			else{
 				my $sequence = $_;
-				@info = split(/\|/, $id);
+				@info  = split(/\|/, $id);
 				@freq1 = split("-", $info[1]);
 				@freq2 = split("-", $info[2]);
 				$count++;
-				$order{$info[0]} = $count;
-				$all{$info[0]} = $id;
+				$order    {$info[0]} = $count;
+				$all      {$info[0]} = $id;
 				$all_freq1{$info[0]} = $freq1[0];
 				$all_freq2{$info[0]} = $freq2[0];
 			}
 		}
+
 		foreach $gene (sort {$order{$a} <=> $order{$b}} keys %order){
 			if (exists $redundant1{$gene}){
 				my @paired_genes = split(",", $redundant1{$gene});
@@ -356,6 +364,7 @@ while(<SAMPLESHEET>){
 					}
 				}
 			}
+
 			if (exists $redundant2{$gene}){
 				my @paired_genes = split(",", $redundant2{$gene});
 				foreach my $paired_gene (@paired_genes){
@@ -374,12 +383,13 @@ while(<SAMPLESHEET>){
 				$id = $1;
 			}
 			else{
-				@info = split(/\|/, $id);
-				@freq1 = split("-", $info[1]);
-				@freq2 = split("-", $info[2]);
+				@info     = split(/\|/, $id);
+				@freq1    = split("-", $info[1]);
+				@freq2    = split("-", $info[2]);
 				$freq1[1] = sprintf("%.2f", $freq1[1]);
 				$freq2[1] = sprintf("%.2f", $freq2[1]);
 				my $sequence = $_;
+				
 				if ($id !~ /lenDiff/){
 					if (! exists $flag_redundant{$info[0]}){
 						if ($info[0] =~ /NC/){
@@ -512,14 +522,13 @@ while(<SAMPLESHEET>){
 		print "To make final table: Cannot find overlapping reads or it is empty: $file\n";
 	}
 
-	print OUT_SELECTED "\n";
+	print OUT_SELECTED  "\n";
 	print OUT_DISCARDED "\n";
-	print OUT_NC "\n";
-	print OUT_AMBI "\n";
-	print OUT_STAT "$sample\t$count_selected1\t$count_selected2\t$count_rescued1\t$count_rescued2\t$count_discarded1\t$count_discarded2\t$count_ambiguous1\t$count_ambiguous2\t$count_nc1\t$count_nc2\n";
-
-
+	print OUT_NC        "\n";
+	print OUT_AMBI      "\n";
+	print OUT_STAT      "$sample\t$count_selected1\t$count_selected2\t$count_rescued1\t$count_rescued2\t$count_discarded1\t$count_discarded2\t$count_ambiguous1\t$count_ambiguous2\t$count_nc1\t$count_nc2\n";
 }
+
 open ("NEW_FASTA", ">fasta/new.MHCI.fasta");
 open ("NEW_INFO", ">fasta/new.MHCI.samples.txt");
 
