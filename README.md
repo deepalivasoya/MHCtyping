@@ -162,13 +162,13 @@ If you want to identify any known haplotypes in the samples, you need 1) haploty
 The following command can be used for MHC class I haplotyping
 
 ```
-perl scripts/haplotypingMHCI.pl 
---haplotypes=fasta/Bovine.mhci.haplotypes.txt 
---filtered=*.mhcI.selected.txt 
---discarded=*.mhcI.discarded.txt 
---summary=*.summary.mhci.matrix.txt 
---database=fasta/Bovine.MHCI.fasta 
---prefix=test
+perl scripts/haplotypingMHCI.pl \
+  --haplotypes=fasta/Bovine.mhci.haplotypes.txt \
+  --filtered=*.mhcI.selected.tsv \
+  --discarded=*.mhcI.discarded.tsv \
+  --summary=*.summary.mhci.matrix.txt \
+  --database=fasta/MHCI.fasta \
+  --prefix=test
 ```
 
 The haplotyping will create the following tables: 
@@ -182,9 +182,9 @@ This script will haplotype class II.
 Note: The haplotype database for class II is slightly tricky as we are looking at up to two DQA and up to two DQB. If you are using your own database or adding new haplotypes in the available database, remember to leave a blank space in the tab-delimited file in case DQA or DQB allele is not present in the haplotype.
 
 ```
-perl scripts/haplotypingMHCII.pl 
---haplotypes=fasta/Bovine.mhcii.haplotypes.txt 
---prefix=test 
+perl scripts/haplotypingMHCII.pl \
+--haplotypes=fasta/Bovine.mhcii.haplotypes.txt \
+--prefix=test \
 --samplesheet=samplesheet.txt
 ```
 
