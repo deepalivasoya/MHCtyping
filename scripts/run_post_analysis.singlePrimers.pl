@@ -15,5 +15,5 @@ GetOptions(
 
 print "$samplesheet\n";
 system ("perl scripts/makeSummarySinglePrimers.pl --samplesheet=$samplesheet --prefix=$prefix --pcr=$pcr --cutoff=$cutoff");
-system ("cat summary/*.selected.tsv > $pcr.selected.tsv");
-system ("cat summary/*.discarded.tsv > $pcr.discarded.tsv");
+system ("cat summary/*.$pcr.selected.tsv > $pcr.selected.tsv");
+system ("cat summary/*.$pcr.discarded.tsv > $pcr.discarded.tsv");
