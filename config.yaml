@@ -28,11 +28,11 @@ primers:
   DQA: "fasta/Bovine.DQA.primers.fa"
   DQB: "fasta/Bovine.DQB.primers.fa"
 database:
-  For1Rev2: "fasta/Bovine.MHCI.fasta"
-  For3Rev1: "fasta/Bovine.MHCI.fasta"
-  DRB3: "fasta/Bovine.DRB3.fasta"
-  DQA: "fasta/Bovine.DQA.fasta"
-  DQB: "fasta/Bovine.DQB.fasta"
+  For1Rev2: "fasta/MHCI.fasta"
+  For3Rev1: "fasta/MHCI.fasta"
+  DRB3: "fasta/DRB3.fasta"
+  DQA: "fasta/DQA.fasta"
+  DQB: "fasta/DQB.fasta"
 samples:
   - Ivan_011
   - Ivan_2059
