@@ -77,7 +77,7 @@ foreach my $seq (sort {$new{$b} <=> $new{$a}} keys %new){
 	$ave1{$seq} = sprintf("%.2f", ($total_freq1/scalar(@freq1)));
 }
 
-open(SUMMARY, ">$prefix.summary.$primer.tsv");
+open(SUMMARY, ">summary.$primer.matrix.tsv");
 print SUMMARY "Sample\t$primer:Total_reads\t$primer:Trimmed_reads\t$primer:Overlapped_reads\t$primer:Primer_found\t$primer:No_of_clusters\t$primer:singletons\t$primer:lenDiff_reads\t$primer:chimera_reads\t$primer:variants_reads\t$primer:low_reads\t$primer:gap_reads\t$primer:selected_reads\t$primer:lenDiff_clusters\t$primer:chimera_clusters\t$primer:variants_clusters\t$primer:low_clusters\t$primer:gap_clusters\t$primer:selected_clusters\t$primer:mapped_reads\t$primer:discarded_reads\t$primer:new_reads\t$primer:splicevariant_reads\t$primer:mapped_clusters\t$primer:discarded_clusters\t$primer:splicevariant_clusters\t$primer:new_clusters\t$primer:count_selected\t$primer:count_rescued\t$primer:count_discarded\n";
 #Get in all new sequences...
 
