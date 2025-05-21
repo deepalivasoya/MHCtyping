@@ -14,15 +14,15 @@ GetOptions(
     'samplesheet=s'     => \$samplesheet
 ) or print "Invalid options\n";
 
-my $selected_file_dqa = "DQA.selected.txt";
-my $discarded_file_dqa = "DQA.discarded.txt";
-my $summary_file_dqa = "summary.DQA.matrix.txt";
-my $selected_file_dqb = "DQB.selected.txt";
-my $discarded_file_dqb = "DQB.discarded.txt";
-my $summary_file_dqb = "summary.DQB.matrix.txt";
-my $selected_file_drb3 = "DRB3.selected.txt";
+my $selected_file_dqa = "DQA.selected.tsv";
+my $discarded_file_dqa = "DQA.discarded.tsv";
+my $summary_file_dqa = "summary.DQA.matrix.tsv";
+my $selected_file_dqb = "DQB.selected.tsv";
+my $discarded_file_dqb = "DQB.discarded.tsv";
+my $summary_file_dqb = "summary.DQB.matrix.tsv";
+my $selected_file_drb3 = "DRB3.selected.tsv";
 # my $discarded_file_drb3 = "DRB3.discarded.txt";
-my $summary_file_drb3 = "summary.DRB3.matrix.txt";
+my $summary_file_drb3 = "summary.DRB3.matrix.tsv";
 
 
 
